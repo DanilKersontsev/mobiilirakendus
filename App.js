@@ -55,6 +55,8 @@ const Section = ({children, title}): Node => {
 };
 
 const App: () => Node = () => {
+  console.log('test')
+
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
