@@ -24,4 +24,4 @@ import React, { useState} from 'react'
          </View>
      )
  }
- export default Input
+ export default Input 
