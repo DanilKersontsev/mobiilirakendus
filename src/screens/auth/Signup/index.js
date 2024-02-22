@@ -23,6 +23,9 @@ import GoogleLogin from "../../../components/GoogleLogin";
             <Button style={styles.button} title="Sign Up"></Button>
             <Separator text="Or sign up with"></Separator>
             <GoogleLogin></GoogleLogin>
+            <Text style={styles.footerText}>Already have and account?
+            <Text style={styles.footerLink}> Sign In</Text>
+            </Text>
         </View>
      )
  }
