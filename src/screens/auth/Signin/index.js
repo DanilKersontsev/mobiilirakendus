@@ -6,11 +6,20 @@ import Button from "../../../components/Button"
 import Separator from "../../../components/Separator";
 import { styles } from "./styles"
 import GoogleLogin from "../../../components/GoogleLogin";
+import { SafeAreaView } from "react-native-safe-area-context";
 
- const Signin = () => {
+const Signin = ({navigation}) => {
+    const onBack = () => {
+        navigation.goBack()
+    }
+
+    const onSignup = () => {
+        navigation.navigate('Signup')
+    }
      return (
+        <SafeAreaView>
         <View style={styles.container}>
-            <AuthHeader title="Sign in"/>
+            <AuthHeader onBackPress={onBack} title="Sign in"/>
             <Input label="E-mail" placeholder="example@gmail.com"/>
             <Input isPassword label="Password" placeholder="******"/> 
             <Button style={styles.button} title="Sign in"></Button>
@@ -20,7 +29,8 @@ import GoogleLogin from "../../../components/GoogleLogin";
             <Text style={styles.footerLink}> Sign Up</Text>
             </Text>
         </View>
+        </SafeAreaView>
      )
  }
 
- export default Signin 
+ export default React.memo(Signin) 

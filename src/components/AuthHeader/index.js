@@ -12,4 +12,4 @@ import React from "react";
          </View>
      )
  }
-export default AuthHeader
+export default React.memo(AuthHeader)
