@@ -18,6 +18,7 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { create } from "react-test-renderer";
+import ProductDetails from "./src/screens/app/ProductDetails";
 
 const Stack = createNativeStackNavigator();
 
@@ -91,6 +92,7 @@ const App = () => {
           isSignedIn ? (
             <>
               <Stack.Screen name="Tabs" component={Tabs} options={{headerShown: false}}></Stack.Screen>
+              <Stack.Screen name="ProductDetails" component={ProductDetails} options={{headerShown: false}}></Stack.Screen>
             </>
           ) : (
             <>
