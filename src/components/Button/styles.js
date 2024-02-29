@@ -5,11 +5,10 @@ import {colors} from '../../utils/colors'
 export const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.blue,
-        paddingVertical: 20,
+        paddingVertical: 16,
         paddingHorizontal: 8,
         borderRadius: 8,
         width: '100%',
-        flex: 1
     },
     title: {
         color: colors.white,
