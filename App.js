@@ -1,4 +1,4 @@
-import React, { useEffect} from "react";
+import React, { useEffect, useState} from "react";
 import { Image}  from 'react-native'
 
 import Splash from "./src/screens/auth/Splash";
@@ -8,6 +8,8 @@ import Signin from "./src/screens/auth/Signin";
 import Home from './src/screens/app/Home';
 import Favorites from "./src/screens/app/Favorites";
 import Profile from "./src/screens/app/Profile";
+import Settings from "./src/screens/app/Settings";
+import CreateListing from "./src/screens/app/CreateListing";
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -18,10 +20,28 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { create } from "react-test-renderer";
+import ProductDetails from "./src/screens/app/ProductDetails";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
 
 const Tab = createBottomTabNavigator();
+
+export const UserContext = React.createContext()
+
+
+const ProfileStack = () => {
+  return (
+    <Stack.Navigator>
+        <Stack.Screen name="Profile" component={Profile} options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen name="Settings" component={Settings} options={{headerShown: false}}></Stack.Screen>
+        <Stack.Screen name="CreateListing" component={CreateListing} options={{headerShown: false}}></Stack.Screen>
+    </Stack.Navigator>
+  )
+}
+
+
+
 
 const Tabs = () => {
   return (
@@ -55,7 +75,7 @@ const Tabs = () => {
     >
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Favorites" component={Favorites} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Profile" component={ProfileStack} />
     </Tab.Navigator>
   );
 }
@@ -65,7 +85,23 @@ const isSignedIn = true;
 const WEB_CLIENT_ID = '850262118316-cifuahu6qoirp79q2b8q9ot9smaab54l.apps.googleusercontent.com'
 const IOS_CLIENT_ID ='850262118316-3p861n91obo1728bcv29koqnmkoofs14.apps.googleusercontent.com'
 const REVERSED_CLIENT_ID ='com.googleusercontent.apps.850262118316-3p861n91obo1728bcv29koqnmkoofs14'
+
+
+
+
+
 const App = () => {
+
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    (async () => {
+      const accessToken = await AsyncStorage.getItem('auth_token')
+      setUser({ accessToken })
+    }) ()
+  }, [])
+
+
   useEffect(() => {
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/drive.readonly'], 
@@ -85,12 +121,14 @@ const App = () => {
 
   return (
     <SafeAreaProvider>
+      <UserContext.Provider value={{user, setUser}}>
       <NavigationContainer theme={theme}>
       <Stack.Navigator>
         {
-          isSignedIn ? (
+          user?.accessToken ? (
             <>
               <Stack.Screen name="Tabs" component={Tabs} options={{headerShown: false}}></Stack.Screen>
+              <Stack.Screen name="ProductDetails" component={ProductDetails} options={{headerShown: false}}></Stack.Screen>
             </>
           ) : (
             <>
@@ -102,6 +140,7 @@ const App = () => {
         }
       </Stack.Navigator>
     </NavigationContainer>
+    </UserContext.Provider>
     </SafeAreaProvider>
   );
 };

@@ -7,11 +7,15 @@ import { categories } from "../../../data/categories"
 import CategoryBox from "../../../components/CategoryBox";
 import {products} from "../../../data/products"
 import ProductHomeItem from "../../../components/ProductHomeItem";
+import { useNavigation } from '@react-navigation/native';
+
 
  const Home = () => {
      const [selectedCategory, setSelectedCategory] = useState()
      const [keyword, setKeyword] = useState()
      const [selectedProducts, setSelectedProducts] = useState(products)
+     const navigation = useNavigation()
+
 
      useEffect(() => {
          if(selectedCategory && !keyword){
@@ -36,12 +40,19 @@ import ProductHomeItem from "../../../components/ProductHomeItem";
             onPress={() => setSelectedCategory(item?.item?.id)} isSelected={item.item.id === selectedCategory} title={item?.item?.title} image={item?.item?.image} />
         )
      }
+   
+     const renderProductItem = ({ item }) => {
+        const onProductPress = (product) => {
+            navigation.navigate("ProductDetails", {product});
+        };
 
-     const renderProductItem = ({item}) => {
-         return(
-             <ProductHomeItem {...item} />
-         )
-     }
+        return (
+            <ProductHomeItem
+            onPress={() => onProductPress(item)}
+            {...item}
+            />
+        );
+    };
      return(
          <SafeAreaView>
              <View style={styles.container}>
