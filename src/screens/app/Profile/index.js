@@ -6,12 +6,20 @@ import ListItem from "../../../components/ListItem"
 import Button from "../../../components/Button"
 import { styles } from "./styles"
 import { useNavigation } from "@react-navigation/native";
+import { UserContext } from "../../../../App";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const Profile = ({navigation}) => {
+    const {user, setUser} = UserContext(UserContext)
     const num = 10
-    const onLogout = () => {
+
+
+    const onLogout = async () => {
+        console.log(user)
         console.log('logout is clicked')
+        await AsyncStorage.removeItem('auth_token')
+        setUser(null)
     }
 
     const onSettingspress = () => {
